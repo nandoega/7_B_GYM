@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 // Sesuai dengan nama project Anda , awalnya akan error pada home,register,form_component.dart
-import 'package:guidedlayout2_1970/View/home.dart';
-import 'package:guidedlayout2_1970/View/register.dart';
-import 'package:guidedlayout2_1970/component/form_component.dart';
+import 'package:pbp/View/home.dart';
+import 'package:pbp/View/register.dart';
+import 'package:pbp/component/form_component.dart';
 
 class LoginView extends StatefulWidget {
   // Variable map data dibuat bersifat nullable, karena ketika aplikasi dijalankan belum memiliki nilai ketika registrasi berhasil dilakukan
