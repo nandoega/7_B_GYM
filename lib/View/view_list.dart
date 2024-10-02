@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pbp/data/people.dart';
+import 'package:pbp/View/gym_equipment_view.dart'; // Import halaman alat gym
+import 'package:pbp/View/personal_trainer_view.dart'; // Import halaman personal trainer
+import 'package:pbp/View/fitness_classes_view.dart'; // Import halaman kelas kebugaran
 
 class ListNamaView extends StatelessWidget {
   const ListNamaView({super.key});
@@ -8,134 +10,46 @@ class ListNamaView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Daftar Nama"),
+        title: const Text('Pilihan Fasilitas'),
+        backgroundColor: Colors.blueAccent,
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth > 600) {
-            // Layar Lebar
-            return const WideLayout();
-          } else {
-            // Layar Horizontal
-            return const NarrowLayout();
-          }
-        },
-      ),
-    );
-  }
-}
-
-class NarrowLayout extends StatelessWidget {
-  const NarrowLayout({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return PeopleList(
-      onPersonTap: (person) => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => Scaffold(
-            appBar: AppBar(),
-            body: PersonDetail(person),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class WideLayout extends StatefulWidget {
-  const WideLayout({super.key});
-
-  @override
-  WideLayoutState createState() => WideLayoutState();
-}
-
-class WideLayoutState extends State<WideLayout> {
-  Person? _person;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 300,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: PeopleList(
-              onPersonTap: (person) => setState(() => _person = person),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GymEquipmentView()),
+                );
+              },
+              child: const Text('Alat Gym'),
             ),
-          ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PersonalTrainerView()),
+                );
+              },
+              child: const Text('Personal Trainer'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FitnessClassesView()),
+                );
+              },
+              child: const Text('Kelas Kebugaran'),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 3,
-          child: _person == null ? const Placeholder() : PersonDetail(_person!),
-        ),
-      ],
-    );
-  }
-}
-
-class PeopleList extends StatelessWidget {
-  final void Function(Person) onPersonTap;
-
-  const PeopleList({super.key, required this.onPersonTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (var person in people)
-          ListTile(
-            leading: Image.network(person.picture),
-            title: Text(person.name),
-            onTap: () => onPersonTap(person),
-          ),
-      ],
-    );
-  }
-}
-
-class PersonDetail extends StatelessWidget {
-  final Person person;
-
-  const PersonDetail(this.person, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Center(
-          child: constraints.maxWidth > 200
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MouseRegion(
-                      onHover: (_) => {print("Hello world")},
-                      child: Text(person.name),
-                    ),
-                    Text(person.phone),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Contact Me"),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    MouseRegion(
-                      onHover: (_) => {print("Hello world")},
-                      child: Text(person.name),
-                    ),
-                    Text(person.phone),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Contact Me"),
-                    ),
-                  ],
-                ),
-        );
-      },
+      ),
     );
   }
 }
