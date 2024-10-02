@@ -19,7 +19,6 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController dobController = TextEditingController(); // Date of Birth
-  TextEditingController regDateController = TextEditingController(); // Registration Date
   TextEditingController addressController = TextEditingController(); // Address
 
   @override
@@ -47,23 +46,6 @@ class _RegisterViewState extends State<RegisterView> {
                   iconData: Icons.person,
                 ),
 
-                // Username Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Username tidak boleh kosong';
-                    }
-                    if (p0.toLowerCase() == 'anjing') {
-                      return 'Tidak boleh menggunakan kata kasar';
-                    }
-                    return null;
-                  },
-                  controller: usernameController,
-                  hintTxt: "Username",
-                  helperTxt: "Contoh: ucup123",
-                  iconData: Icons.person,
-                ),
-
                 // Email Input Field
                 inputForm(
                   (p0) {
@@ -79,6 +61,23 @@ class _RegisterViewState extends State<RegisterView> {
                   hintTxt: "Email",
                   helperTxt: "Contoh: ucup@gmail.com",
                   iconData: Icons.email,
+                ),
+                
+                // Username Input Field
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Username tidak boleh kosong';
+                    }
+                    if (p0.toLowerCase() == 'anjing') {
+                      return 'Tidak boleh menggunakan kata kasar';
+                    }
+                    return null;
+                  },
+                  controller: usernameController,
+                  hintTxt: "Username",
+                  helperTxt: "Contoh: ucup123",
+                  iconData: Icons.person,
                 ),
 
                 // Password Input Field
@@ -130,20 +129,6 @@ class _RegisterViewState extends State<RegisterView> {
                   iconData: Icons.calendar_today,
                 ),
 
-                // Registration Date Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Tanggal registrasi tidak boleh kosong';
-                    }
-                    return null;
-                  },
-                  controller: regDateController,
-                  hintTxt: "Tanggal Registrasi",
-                  helperTxt: "Contoh: 01/01/2024",
-                  iconData: Icons.date_range,
-                ),
-
                 // Address Input Field
                 inputForm(
                   (p0) {
@@ -165,9 +150,15 @@ class _RegisterViewState extends State<RegisterView> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
                       );
-                      Map<String, dynamic> formData = {};
-                      formData['username'] = usernameController.text;
-                      formData['password'] = passwordController.text;
+                      Map<String, dynamic> formData = {
+                        'name': nameController.text,
+                        'username': usernameController.text,
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                        'notelp': notelpController.text,
+                        'dob': dobController.text,
+                        'address': addressController.text,
+                      };
                       Navigator.push(
                         context,
                         MaterialPageRoute(
