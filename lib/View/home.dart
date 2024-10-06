@@ -19,7 +19,7 @@ class _HomeViewState extends State<HomeView> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     Center(
-      child: Image(image: NetworkImage('https://picsum.photos/200/300')),
+      child: Image(image: NetworkImage('https://picsum.photos/200/301')),
     ),
     ListNamaView(), // Halaman List dengan 3 tombol
     Center(
