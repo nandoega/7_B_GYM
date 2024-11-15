@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pbp/View/login.dart';
-import 'package:pbp/component/form_component.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -14,160 +13,228 @@ class _RegisterViewState extends State<RegisterView> {
 
   // Controllers for all the fields
   TextEditingController nameController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController notelpController = TextEditingController();
-  TextEditingController dobController = TextEditingController(); // Date of Birth
-  TextEditingController addressController = TextEditingController(); // Address
+  TextEditingController dobController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF282A41), // Background color from login.dart
       body: SafeArea(
         child: Form(
           key: _formKey,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Name Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Nama tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                const Text(
+                  'Atma Gym',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Let\'s get started',
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // Full Name
+                TextFormField(
                   controller: nameController,
-                  hintTxt: "Nama Lengkap",
-                  helperTxt: "Contoh: Budi Santoso",
-                  iconData: Icons.person,
-                ),
-
-                // Email Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Email tidak boleh kosong';
-                    }
-                    if (!p0.contains('@')) {
-                      return 'Email harus menggunakan @';
+                  decoration: InputDecoration(
+                    hintText: 'Full Name',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Full Name cannot be empty';
                     }
                     return null;
                   },
+                ),
+                const SizedBox(height: 16),
+
+                // Email
+                TextFormField(
                   controller: emailController,
-                  hintTxt: "Email",
-                  helperTxt: "Contoh: ucup@gmail.com",
-                  iconData: Icons.email,
-                ),
-                
-                // Username Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Username tidak boleh kosong';
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email cannot be empty';
                     }
-                    if (p0.toLowerCase() == 'anjing') {
-                      return 'Tidak boleh menggunakan kata kasar';
+                    if (!value.contains('@')) {
+                      return 'Invalid email format';
                     }
                     return null;
                   },
-                  controller: usernameController,
-                  hintTxt: "Username",
-                  helperTxt: "Contoh: ucup123",
-                  iconData: Icons.person,
                 ),
+                const SizedBox(height: 16),
 
-                // Password Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Password tidak boleh kosong';
-                    }
-                    if (p0.length < 5) {
-                      return 'Password minimal 5 karakter';
-                    }
-                    return null;
-                  },
+                // Password
+                TextFormField(
                   controller: passwordController,
-                  hintTxt: "Password",
-                  helperTxt: "Minimal 5 karakter",
-                  iconData: Icons.lock,
-                  password: true,
-                ),
-
-                // Phone Number Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Nomor Telepon tidak boleh kosong';
-                    }
-                    if (!RegExp(r'^[0-9]+$').hasMatch(p0)) {
-                      return 'Nomor Telepon tidak valid';
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password cannot be empty';
                     }
                     return null;
                   },
-                  controller: notelpController,
-                  hintTxt: "No Telp",
-                  helperTxt: "Contoh: 081234567890",
-                  iconData: Icons.phone_android,
                 ),
+                const SizedBox(height: 16),
 
-                // Date of Birth Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Tanggal lahir tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                // Date of Birth
+                TextFormField(
                   controller: dobController,
-                  hintTxt: "Tanggal Lahir",
-                  helperTxt: "Contoh: 01/01/2000",
-                  iconData: Icons.calendar_today,
-                ),
-
-                // Address Input Field
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Alamat tidak boleh kosong';
+                  decoration: InputDecoration(
+                    hintText: 'Date of Birth',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Date of Birth cannot be empty';
                     }
                     return null;
                   },
-                  controller: addressController,
-                  hintTxt: "Alamat",
-                  helperTxt: "Contoh: Jl. Kenangan No. 1",
-                  iconData: Icons.home,
                 ),
+                const SizedBox(height: 16),
+
+                // Address
+                TextFormField(
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    hintText: 'Address',
+                    fillColor: Colors.white,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Address cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30),
 
                 // Register Button
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3951BD), // Button color from login.dart
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    minimumSize: const Size.fromHeight(50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
+                        const SnackBar(content: Text('Registering...')),
                       );
-                      Map<String, dynamic> formData = {
-                        'name': nameController.text,
-                        'username': usernameController.text,
-                        'email': emailController.text,
-                        'password': passwordController.text,
-                        'notelp': notelpController.text,
-                        'dob': dobController.text,
-                        'address': addressController.text,
-                      };
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (BuildContext buildContext) => LoginView(data: formData),
-                        ),
+                        MaterialPageRoute(builder: (_) => const LoginView()),
                       );
                     }
                   },
-                  child: const Text('Register'),
+                  child: const Text('REGISTER', style: TextStyle(color: Colors.white)),
+                ),
+                const SizedBox(height: 20),
+
+                // Separator Line
+                Row(
+                  children: const [
+                    Expanded(
+                      child: Divider(
+                        color: Colors.white70,
+                        thickness: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'or',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Colors.white70,
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Login link
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account? ",
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const LoginView()),
+                        );
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'wanna take a look ?',
+                  style: TextStyle(
+                    color: Colors.white,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ],
             ),
