@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp/View/login.dart';
+import 'package:pbp/View/gym_facilities.dart';
+import 'package:pbp/data/people.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -21,7 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF282A41), // Background color from login.dart
+      backgroundColor: const Color(0xFF282A41), // Background color
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -107,6 +109,9 @@ class _RegisterViewState extends State<RegisterView> {
                     if (value == null || value.isEmpty) {
                       return 'Password cannot be empty';
                     }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters long';
+                    }
                     return null;
                   },
                 ),
@@ -155,7 +160,7 @@ class _RegisterViewState extends State<RegisterView> {
                 // Register Button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3951BD), // Button color from login.dart
+                    backgroundColor: const Color(0xFF3951BD), // Button color
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     minimumSize: const Size.fromHeight(50),
                     shape: RoundedRectangleBorder(
@@ -164,12 +169,90 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Registering...')),
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const LoginView()),
+                      users.add(User(
+                        name: nameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        dob: dobController.text,
+                        address: addressController.text,
+                      ));
+
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            backgroundColor: Colors.transparent,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text(
+                                        'Register Successful!',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      const Text(
+                                        'Please continue to log in.',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: const Color(0xFFEAC009),
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 8,
+                                              horizontal: 16,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) => const LoginView(),
+                                              ),
+                                            );
+                                          },
+                                          child: const Text(
+                                            'OK',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       );
                     }
                   },
@@ -177,7 +260,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 const SizedBox(height: 20),
 
-                // Separator Line
+                // "----------- or ----------" Divider
                 Row(
                   children: const [
                     Expanded(
@@ -187,7 +270,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
                         'or',
                         style: TextStyle(color: Colors.white70),
@@ -203,7 +286,7 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 const SizedBox(height: 20),
 
-                // Login link
+                // Already have an account? Login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -213,10 +296,7 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const LoginView()),
-                        );
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginView()));
                       },
                       child: const Text(
                         'Login',
@@ -228,14 +308,28 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                const Text(
-                  'wanna take a look ?',
-                  style: TextStyle(
-                    color: Colors.white,
-                    decoration: TextDecoration.underline,
+                const SizedBox(height: 40), // Pushes the next element to the bottom
+
+                // Wanna take a look link
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const GymFacilitiesView()),
+                      );
+                    },
+                    child: const Text(
+                      'wanna take a look ?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
                   ),
                 ),
+                const SizedBox(height: 30), // Ensure consistent padding from the bottom
               ],
             ),
           ),

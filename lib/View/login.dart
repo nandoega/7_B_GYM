@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pbp/View/home.dart';
 import 'package:pbp/View/register.dart';
 import 'package:pbp/View/gym_facilities.dart'; // Import halaman fasilitas gym
+import 'package:pbp/data/people.dart'; // Import the users list
 
 class LoginView extends StatefulWidget {
-  final Map? data;
-
-  const LoginView({super.key, this.data});
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -14,15 +13,13 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    Map? dataForm = widget.data;
-
     return Scaffold(
-      backgroundColor: const Color(0xFF282A41), // Background color 282A41
+      backgroundColor: const Color(0xFF282A41), // Background color
       body: SafeArea(
         child: Center(
           child: Form(
@@ -86,6 +83,9 @@ class _LoginViewState extends State<LoginView> {
                       if (value == null || value.isEmpty) {
                         return 'Password cannot be empty';
                       }
+                      if (value.length < 8) {
+                        return 'Password must be at least 8 characters long';
+                      }
                       return null;
                     },
                   ),
@@ -94,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                   // Login Button
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF3951BD), // Button color 3951BD
+                      backgroundColor: const Color(0xFF3951BD), // Button color
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       minimumSize: const Size.fromHeight(50),
                       shape: RoundedRectangleBorder(
@@ -103,29 +103,27 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        if (dataForm!['username'] == emailController.text &&
-                            dataForm['password'] == passwordController.text) {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeView()));
+                        final user = users.firstWhere(
+                          (user) =>
+                              user.email == emailController.text &&
+                              user.password == passwordController.text,
+                          orElse: () => User(
+                            name: '',
+                            email: '',
+                            password: '',
+                            dob: '',
+                            address: '',
+                          ),
+                        );
+
+                        if (user.email.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomeView()),
+                          );
                         } else {
-                          showDialog(
-                            context: context,
-                            builder: (_) => AlertDialog(
-                              title: const Text('Incorrect Password'),
-                              content: TextButton(
-                                onPressed: () => pushRegister(context),
-                                child: const Text('Register Here!!'),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Invalid email or password!')),
                           );
                         }
                       }
@@ -160,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Register and "Wanna take a look?" links
+                  // Register link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -168,27 +166,34 @@ class _LoginViewState extends State<LoginView> {
                         "Don’t have an account yet? ",
                         style: TextStyle(color: Colors.white70),
                       ),
-                      MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () => pushRegister(context),
-                          child: const Text(
-                            'Register here',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const RegisterView()),
+                          );
+                        },
+                        child: const Text(
+                          'Register here',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 40),
+
+                  // Wanna take a look link
                   MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => const GymFacilitiesView()));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const GymFacilitiesView()),
+                        );
                       },
                       child: const Text(
                         'wanna take a look ?',
@@ -199,6 +204,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 30), // Ensure consistent padding from the bottom
                 ],
               ),
             ),
@@ -207,8 +213,4 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
-}
-
-void pushRegister(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterView()));
 }
