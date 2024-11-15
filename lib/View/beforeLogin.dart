@@ -8,7 +8,7 @@ class BeforeLoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF282A41), // Background color
+      backgroundColor: const Color(0xFF282A41),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -50,7 +50,7 @@ class BeforeLoginView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _buildCategoryBox('Workouts', const Color(0xFF3951BD)),
-                  const SizedBox(width: 15), // Gap between boxes
+                  const SizedBox(width: 15),
                   _buildCategoryBox('Gym', const Color(0xFF3951BD)),
                 ],
               ),
@@ -119,7 +119,7 @@ class BeforeLoginView extends StatelessWidget {
                     ),
                     textColor: Colors.black,
                   ),
-                  const SizedBox(width: 20), // Gap between buttons
+                  const SizedBox(width: 20),
                   _buildRoundedActionButton(
                     'Register',
                     const Color(0xFF3951BD),
@@ -145,6 +145,13 @@ class BeforeLoginView extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              offset: const Offset(4, 4),
+              blurRadius: 6,
+            ),
+          ],
         ),
         child: Center(
           child: Text(
@@ -169,6 +176,13 @@ class BeforeLoginView extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.yellow,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: const Offset(4, 4),
+            blurRadius: 6,
+          ),
+        ],
       ),
       child: Center(
         child: Text(
@@ -193,6 +207,13 @@ class BeforeLoginView extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: const Offset(4, 4),
+            blurRadius: 6,
+          ),
+        ],
       ),
       child: Center(
         child: Text(
@@ -212,21 +233,26 @@ class BeforeLoginView extends StatelessWidget {
   Widget _buildRoundedActionButton(
       String title, Color color, VoidCallback onPressed,
       {Color textColor = Colors.white}) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20), // Rounded corners
+    return SizedBox(
+      width: 150,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          shadowColor: Colors.black.withOpacity(0.3),
+          elevation: 6,
         ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: textColor,
+        onPressed: onPressed,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: textColor,
+          ),
         ),
       ),
     );
