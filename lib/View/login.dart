@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp/View/home.dart';
 import 'package:pbp/View/register.dart';
-import 'package:pbp/View/gym_facilities.dart'; // Import halaman fasilitas gym
+import 'package:pbp/View/beforeLogin.dart'; // Import halaman fasilitas gym
 import 'package:pbp/data/people.dart'; // Import the users list
 
 class LoginView extends StatefulWidget {
@@ -192,7 +192,7 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const GymFacilitiesView()),
+                          MaterialPageRoute(builder: (_) => const BeforeLoginView()),
                         );
                       },
                       child: const Text(
