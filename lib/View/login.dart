@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pbp/View/home.dart';
+import 'package:pbp/View/main_page.dart';
 import 'package:pbp/View/register.dart';
-import 'package:pbp/View/beforeLogin.dart'; // Import halaman fasilitas gym
+import 'package:pbp/View/before_login.dart'; // Import halaman fasilitas gym
 import 'package:pbp/data/people.dart'; // Import the users list
 
 class LoginView extends StatefulWidget {
@@ -113,13 +113,20 @@ class _LoginViewState extends State<LoginView> {
                             password: '',
                             dob: '',
                             address: '',
+                            profileImage: 'https://via.placeholder.com/150', // Default image
                           ),
                         );
 
                         if (user.email.isNotEmpty) {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const HomeView()),
+                            MaterialPageRoute(
+                              builder: (_) => MainPage(
+                                name: user.name,
+                                email: user.email,
+                                profileImage: user.profileImage,
+                              ),
+                            ),
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

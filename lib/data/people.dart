@@ -1,18 +1,29 @@
 class User {
-  final String name;
-  final String email;
-  final String password;
-  final String dob;
-  final String address;
+  String name;
+  String email;
+  String password;
+  String dob; // Date of birth
+  String address;
+  String profileImage;
 
-  const User({
+  User({
     required this.name,
     required this.email,
     required this.password,
     required this.dob,
     required this.address,
+    this.profileImage = '',
   });
 }
 
-// List to store all registered users dynamically during runtime
-final List<User> users = [];
+List<User> users = [
+  User(
+    name: 'Aiko Evelyn',
+    email: 'aikoevelyn@gmail.com',
+    password: 'password123',
+    dob: '1990-01-01',
+    address: '123 Main St',
+    profileImage: 'https://example.com/profile.jpg',
+  ),
+  // Add more users as needed
+];
