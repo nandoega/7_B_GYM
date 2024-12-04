@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pbp/View/edit_user.dart '; // Import the edit page
+import 'package:pbp/View/edit_user.dart'; // Import the edit page
 
 class UserPage extends StatelessWidget {
   @override
@@ -80,13 +80,51 @@ class UserPage extends StatelessWidget {
                           // Navigate to Edit User page when pencil icon is tapped
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => EditUserPage()),
+                            MaterialPageRoute(
+                                builder: (context) => EditUserPage()),
                           );
                         },
                         child: Icon(Icons.edit, color: Colors.white),
                       ),
                       SizedBox(width: 10),
-                      Icon(Icons.delete, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          // Show delete confirmation modal
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Delete User'),
+                                content: Text(
+                                    'Are you sure you want to delete this user?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the modal
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Add delete functionality here
+                                      Navigator.of(context)
+                                          .pop(); // Close the modal
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(content: Text('User deleted')),
+                                      );
+                                    },
+                                    child: Text('Delete',
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
                     ],
                   ),
                 ],
