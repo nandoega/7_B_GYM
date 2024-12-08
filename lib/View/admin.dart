@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pbp/View/user.dart'; 
 import 'package:pbp/View/workout_class.dart';// Import the UserPage
+import 'package:pbp/View/schedule.dart';
 
 class AtmaGymPage extends StatelessWidget {
   @override
@@ -59,11 +60,19 @@ class AtmaGymPage extends StatelessWidget {
                       _buildButton('Create Workout', Colors.blue),
                     ),
 
-                    
                     _buildButton('Sport Class', Colors.yellow),
                     _buildButton('Equipment', Colors.yellow),
                     _buildButton('Personal Trainer', Colors.yellow),
-                    _buildButton('Schedule', Colors.red),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SchedulePage()),
+                          );
+                        },
+                        child: 
+                        _buildButton('Schedule', Colors.red),
+                      ),
                     _buildButton('Review', Colors.white),
                     _buildButton('Transaction', Colors.white),
                   ],

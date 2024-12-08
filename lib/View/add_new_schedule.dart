@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-class EditUserPage extends StatefulWidget {
+class AddSchedulePage extends StatefulWidget {
   @override
-  _EditUserPageState createState() => _EditUserPageState();
+  _AddSchedulePageState createState() => _AddSchedulePageState();
 }
 
-class _EditUserPageState extends State<EditUserPage> {
+class _AddSchedulePageState extends State<AddSchedulePage> {
+  final _scheduleNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _dobController = TextEditingController();
+  final _addressController = TextEditingController();
   String? selectedSubscription;
 
   @override
@@ -20,7 +25,7 @@ class _EditUserPageState extends State<EditUserPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Edit User',
+          'Add Schedule',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -33,60 +38,24 @@ class _EditUserPageState extends State<EditUserPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildLabel('Name :'),
-            _buildTextField('Veronica Regina Mambu'),
+            _buildLabel('Schedule Name :'),
+            _buildTextField(_scheduleNameController, 'Enter name'),
             SizedBox(height: 16),
 
-            _buildLabel('Email :'),
-            _buildTextField('veronika@gmail.com'),
+            _buildLabel('Date :'),
+            _buildTextField(_dobController, 'Enter date of birth'),
             SizedBox(height: 16),
 
-            _buildLabel('Password :'),
-            _buildTextField('********', isPassword: true),
+            _buildLabel('Time :'),
+            _buildTextField(_passwordController, 'Enter password', isPassword: true),
             SizedBox(height: 16),
-
-            _buildLabel('Date of Birth :'),
-            _buildTextField('17-12-1996'),
-            SizedBox(height: 16),
-
-            _buildLabel('Address :'),
-            _buildTextField('Babarsari St'),
-            SizedBox(height: 16),
-
-            _buildLabel('Active Subscription / Upcoming Class:'),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: DropdownButton<String>(
-                value: selectedSubscription,
-                hint: Text('List'),
-                isExpanded: true,
-                underline: SizedBox(),
-                items: ['Class A', 'Class B', 'Class C'].map((String item) {
-                  return DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() => selectedSubscription = value);
-                },
-              ),
-            ),
-            SizedBox(height: 24),
-
-            // Replace just the ElevatedButton part:
 
             SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // This will return to previous page
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFF4B4B),
@@ -123,7 +92,11 @@ class _EditUserPageState extends State<EditUserPage> {
     );
   }
 
-  Widget _buildTextField(String initialValue, {bool isPassword = false}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String hint, {
+    bool isPassword = false,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 12),
@@ -132,12 +105,23 @@ class _EditUserPageState extends State<EditUserPage> {
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(
-        controller: TextEditingController(text: initialValue),
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           border: InputBorder.none,
+          hintText: hint,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scheduleNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _dobController.dispose();
+    _addressController.dispose();
+    super.dispose();
   }
 }

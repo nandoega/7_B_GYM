@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pbp/View/edit_user.dart'; // Import the edit page
+import 'package:pbp/View/add_new_user.dart';
 
 class UserPage extends StatelessWidget {
   @override
@@ -132,11 +133,15 @@ class UserPage extends StatelessWidget {
             ),
             Spacer(),
             // Add New User Button
+
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Add new user functionality here
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddUserPage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.yellow,
